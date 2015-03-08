@@ -9,7 +9,7 @@
     "url": "https://github.com/fegemo",
     "email": "fegemo@gmail.com"
   },
-  "main": "./lib/bespoke-math.js",
+  "main": "./dist/bespoke-math.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/fegemo/bespoke-math.git"
