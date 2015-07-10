@@ -1,5 +1,7 @@
-node_modules
+node_modules/*
+!node_modules/katex-build
 bower_components
 lib-instrumented
 test/coverage
 .idea
+Thumbs.db

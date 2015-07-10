@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>bespoke-math demo</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../node_modules/katex-build/katex.min.css" />
   </head>
   <body>
 
@@ -14,25 +15,16 @@
         <p>Slide 1</p>
       </section>
       <section>
-        <p>Slide 2</p>
-        <div class="math">c = \pm\sqrt{a^2 + b^2}</div>
+        <p>Slide 2: inline formula</p>
+        <span class="math">d = \frac{a^2+b^2}{\sqrt(c)}</span>
       </section>
       <section>
-        <p>Slide 3</p>
-        <span class="math">c = \pm\sqrt{a^2 + b^2}</span>
-      </section>
-      <section>
-        <p>Slide 4</p>
-      </section>
-      <section>
-        <p>Slide 5</p>
+        <p>Slide 3: display formula</p>
+        <div class="math">d = \frac{a^2+b^2}{\sqrt(c)}</div>
       </section>
     </article>
 
     <script src="../node_modules/bespoke/dist/bespoke.js"></script>
-    <script src="../node_modules/bespoke-keys/dist/bespoke-keys.js"></script>
-    <script src="../node_modules/bespoke-touch/dist/bespoke-touch.js"></script>
-    <script src="../node_modules/bespoke-classes/dist/bespoke-classes.js"></script>
     <script src="../dist/bespoke-math.js"></script>
     <script src="demo.js"></script>
   </body>

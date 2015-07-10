@@ -3,7 +3,7 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   map = require('vinyl-map'),
   istanbul = require('istanbul'),
-  karma = require('gulp-karma'),
+  karma = require('karma').server,
   coveralls = require('gulp-coveralls'),
   header = require('gulp-header'),
   rename = require('gulp-rename'),
@@ -43,18 +43,19 @@ gulp.task('instrument', function() {
     .pipe(gulp.dest('lib-instrumented'));
 });
 
-gulp.task('test', ['instrument'], function() {
-  return gulp.src(['test/spec/*Spec.js'])
-    .pipe(karma({ configFile: 'karma.conf.js' }));
+gulp.task('test', ['instrument'], function(done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
 });
 
 gulp.task('coveralls', ['test'], function() {
-  return gulp.src(['test/coverage/**/lcov.info'])
+  return gulp.src(['test/coverage/lcov/**/lcov.info'])
     .pipe(coveralls());
 });
 
 gulp.task('compile', ['clean'], function() {
-  debugger;
   return browserify({debug: true, standalone: 'bespoke.plugins.math'})
     .add('./lib/bespoke-math.js')
     .transform('brfs')
