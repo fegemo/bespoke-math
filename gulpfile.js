@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  clean = require('gulp-clean'),
+  del = require('del'),
   jshint = require('gulp-jshint'),
   map = require('vinyl-map'),
   istanbul = require('istanbul'),
@@ -22,9 +22,12 @@ gulp.task('watch', function() {
   gulp.watch('test/spec/**/*.js', ['test']);
 });
 
-gulp.task('clean', function() {
-  return gulp.src(['dist', 'lib-instrumented', 'test/coverage'], { read: false })
-    .pipe(clean());
+gulp.task('clean', function(done) {
+  del([
+    'dist',
+    'lib-instrumented',
+    'test/coverage'
+  ], done);
 });
 
 gulp.task('lint', function() {

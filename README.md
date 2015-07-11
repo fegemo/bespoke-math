@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/fegemo/bespoke-math.svg)](https://travis-ci.org/fegemo/bespoke-math) [![Coverage Status](https://coveralls.io/repos/fegemo/bespoke-math/badge.svg?branch=master&service=github)](https://coveralls.io/github/fegemo/bespoke-math?branch=master)
+[![Build Status](https://travis-ci.org/fegemo/bespoke-math.svg)](https://travis-ci.org/fegemo/bespoke-math) [![Coverage Status](https://coveralls.io/repos/fegemo/bespoke-math/badge.svg?branch=master&service=github)](https://coveralls.io/github/fegemo/bespoke-math?branch=master) ![Dependencies](https://david-dm.org/fegemo/bespoke-math.svg)
 
 # bespoke-math
 
