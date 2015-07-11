@@ -1,7 +1,7 @@
 {
   "name": "bespoke-math",
-  "version": "1.0.0",
-  "main": "./dist/bespoke-math.js",
+  "version": "1.1.0",
+  "main": "./dist/bespoke-math.min.js",
   "ignore": [
     "**/.*"
   ],
