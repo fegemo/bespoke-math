@@ -97,5 +97,55 @@ describe("bespoke-math configuration", function() {
     });
   });
 
+  describe('errors', function() {
+    var deck,
+      slides;
+
+    it('should not throw an exception when an incorrect formula is processed', function() {
+      slides = ['<p class="math">\\incorrect_latex_command</p>'];
+
+      spyOn(bespoke, 'from').and.callThrough();
+
+      expect(function() {
+        deck = bespoke.from(createHtml(slides), [
+          math()
+        ]);
+      }).not.toThrow();
+    });
+
+    // I might need to use sthg like proxyquireify to mock the require to the CSS file
+    // it('should not throw an exception when it is not possible to find katex\'s CSS', function() {
+    //
+    //   var stubs = {
+    //     '../katex/katex.min.css': { }
+    //   };
+    //
+    //   var mockedMath = proxyquire('../../lib-instrumented/bespoke-math.js');
+    //
+    //   slides = ['<p>heyyy i\'m just a paragraph!</p>'];
+    //
+    //   expect(function() {
+    //     deck = bespoke.from(createHtml('slides'), [
+    //       math()
+    //     ]);
+    //   }).not.toThrow();
+    // });
+
+    it('should not include CSS from katex if no math formula is found', function() {
+      var styles = document.querySelectorAll('head > style');
+
+      for (var i = 0; i < styles.length; i++) {
+        styles[i].remove();
+      }
+
+      slides = ['<p>no math formula</p>'];
+
+      deck = bespoke.from(createHtml(slides), [
+        math()
+      ]);
+
+      expect(document.styleSheets.length).toBe(0);
+    });
+  });
 
 });

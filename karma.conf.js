@@ -16,9 +16,9 @@ module.exports = function(config) {
       debug: true,
       transform: [
         ['browserify-css', { rootDir: './inexistent_directory' }]
-      ],
+      ]
     },
-    
+
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {
