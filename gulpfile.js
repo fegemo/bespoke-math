@@ -22,12 +22,12 @@ gulp.task('watch', function() {
   gulp.watch('test/spec/**/*.js', ['test']);
 });
 
-gulp.task('clean', function(done) {
-  del([
+gulp.task('clean', function() {
+  return del([
     'dist',
     'lib-instrumented',
     'test/coverage'
-  ], done);
+  ]);
 });
 
 gulp.task('lint', function() {
@@ -61,6 +61,9 @@ gulp.task('coveralls', ['test'], function() {
 gulp.task('compile', ['clean'], function() {
   return browserify({debug: true, standalone: 'bespoke.plugins.math'})
     .add('./lib/bespoke-math.js')
+    .transform('browserify-css', {
+      rootDir: './inexistent_directory'   // tricking browserify-css to make fonts be included
+    })
     .transform('brfs')
     .bundle()
     .pipe(source('bespoke-math.js'))
@@ -70,8 +73,8 @@ gulp.task('compile', ['clean'], function() {
       ' * <%= name %> v<%= version %>',
       ' *',
       ' * Copyright <%= new Date().getFullYear() %>, <%= author.name %>',
-      ' * This content is released under the <%= licenses[0].type %> license',
-      ' * <%= licenses[0].url %>',
+      ' * This content is released under the <%= license %> license',
+      ' * ',
       ' */\n\n'
     ].join('\n'), pkg))
     .pipe(gulp.dest('dist'))
@@ -80,7 +83,7 @@ gulp.task('compile', ['clean'], function() {
     .pipe(header([
       '/*! <%= name %> v<%= version %> ',
       '© <%= new Date().getFullYear() %> <%= author.name %>, ',
-      '<%= licenses[0].type %> License */\n'
+      '<%= license %> License */\n'
     ].join(''), pkg))
     .pipe(gulp.dest('dist'));
 });
