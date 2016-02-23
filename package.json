@@ -23,7 +23,8 @@
   "devDependencies": {
     "bespoke": "^1.0.0",
     "bespoke-classes": "^1.0.0",
-    "bespoke-keys": "^1.0.0",
+    "bespoke-keys": "^1.1.0",
+    "bespoke-theme-cube": "^2.0.1",
     "bespoke-touch": "^1.0.0",
     "brfs": "^1.4.0",
     "browserify": "^13.0.0",
