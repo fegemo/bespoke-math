@@ -11,6 +11,14 @@ module.exports = function(config) {
       'test/**/*.js': 'browserify',
       'lib/**/*.js': 'coverage'
     },
+
+    browserify: {
+      debug: true,
+      transform: [
+        ['browserify-css', { rootDir: './inexistent_directory' }]
+      ],
+    },
+    
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {

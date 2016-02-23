@@ -3,7 +3,7 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   map = require('vinyl-map'),
   istanbul = require('istanbul'),
-  karma = require('karma').server,
+  karma = require('karma'),
   coveralls = require('gulp-coveralls'),
   header = require('gulp-header'),
   rename = require('gulp-rename'),
@@ -47,10 +47,11 @@ gulp.task('instrument', function() {
 });
 
 gulp.task('test', ['instrument'], function(done) {
-  karma.start({
+  var server = new karma.Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done);
+  server.start();
 });
 
 gulp.task('coveralls', ['test'], function() {
