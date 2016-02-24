@@ -60,7 +60,7 @@
     "watchify": "^3.7.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.4.0"
   },
   "license": "MIT",
   "keywords": [
