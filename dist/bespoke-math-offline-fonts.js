@@ -1,5 +1,5 @@
 /*!
- * bespoke-math v1.1.0
+ * bespoke-math v1.2.0
  *
  * Copyright 2016, Flávio
  * This content is released under the MIT license
