@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>bespoke-math demo</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+
+  <div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+      <div class="header">
+        <h1 class="brand-title">bespoke-math</h1>
+        <h2 class="brand-tagline">KaTeX math in your bespoke.js presentation</h2>
+
+        <nav class="nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a class="pure-button" href="https://github.com/fegemo/bespoke-math/">GitHub</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+      <div>
+        <!-- A wrapper for all the blog posts -->
+        <div class="posts">
+
+          <!-- A single blog post -->
+          <section class="post">
+            <header class="post-header">
+              <h2 class="post-title">bespoke-math demo</h2>
+            </header>
+
+            <div class="post-description">
+              <p>
+                <p><a href="https://github.com/fegemo/bespoke-math/">bespoke-math</a> provides the power of
+                  <a href="http://khan.github.io/KaTeX/">KaTeX</a> to bespoke.js presentations.
+                </p>
+                <p>KaTeX requires a CSS file and some font-face files to be included.</p>
+                <p>This plugin injects the required CSS file on the document that is
+                  housing the bespoke.js presentation. The font-face files get included from
+                  a <abbr title="Content Delivery Network">CDN</abbr> called
+                  <a href="https://cdnjs.com/libraries/KaTeX">cdnjs</a>.
+                </p>
+                <p>That fact has a downside that is if the presentation is being loaded
+                  locally without Internet connection the font-face files won't be
+                  downloaded and the math formulas might not render well.
+                </p>
+                <p>If you want your presentation to be available without using the CDN,
+                  it is possible to use a version of bespoke-math that includes the
+                  font-face files using base64 data uri encoding. Please, look into the files:
+                  <ul>
+                    <li>dist/bespoke-math-offline-fonts.js</li>
+                    <li>dist/bespoke-math-offline-fonts.min.js</li>
+                  </ul>
+                </p>
+                <p>You can see live examples of both strategies:
+                  <ul>
+                    <li><a href="fonts-from-cdn/">Regular mode</a> (fonts downloaded from CDN)</li>
+                    <li><a href="fonts-available-offline/">Offline fonts mode</a> (fonts embedded in .js)</li>
+                  </ul>
+                </p>
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>
