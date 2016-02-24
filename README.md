@@ -2,17 +2,37 @@
 
 # bespoke-math
 
-Use [KaTeX][katex] to include latex formulas into your bespoke.js presentation. Only the HTML elements with the
-`math` class will be transformed through KaTeX (this is configurable, keep reading). For example, this markup:
-`<div class="math">d = \frac{a^2+b^2}{\sqrt(c)}</div>` will render like:
+Use [KaTeX][katex] to include latex formulas into your bespoke.js presentation.
+See our [demo](https://fegemo.github.io/bespoke-math/).
+
+## How it works
+
+Only the HTML elements with the `math` class will be transformed through
+KaTeX (this is configurable, keep reading). For example, this markup:
+
+```html
+<div class="math">d = \frac{a^2+b^2}{\sqrt(c)}</div>
+```
+
+...will render like:
 
 ![](images/display.png)
 
 
-Also, KaTeX will render the element either as a "full" math ("displaystyle") or as an inline math ("textstyle")
-(inline is a bit shortened to fit a text line) depending on the HTML element used: `<span class="math">...</span>`
-renders inline whereas  a `<div class="math">...</div>` or any other
-element renders a "full" formula.
+Also, KaTeX will render the element either as a "full" math ("displaystyle")
+or as an inline math ("textstyle") (inline is a bit shortened to fit one text
+line) depending on the HTML element used:
+
+```html
+<span class="math">...</span>
+```
+
+...renders inline (because of `<span></span>`) whereas a `<div></div>`
+or any other element renders a "full" formula:
+
+```html
+<div class="math">...</div>
+```
 
 - Display style (full height):
   ![](images/display.png)
@@ -22,7 +42,9 @@ element renders a "full" formula.
 
 ## KaTeX
 
-KaTeX is a much lighter alternative to MathJax that allows you to write LaTeX formulas on the web.
+KaTeX is a much lighter alternative to MathJax that allows you to write
+LaTeX formulas on the web.
+
 Refer to their documentation on what syntax is supported.
 The current version of KaTeX in use is [0.5.1][katex-version].
 
@@ -61,7 +83,7 @@ bespoke.from('#presentation', [
 
 ## Configuring bespoke-math
 
-The default action is to transform every HTML element that has `.math` (e.g., &lt;span class="math"&gt;\vec{r} = \vec{S} + 2\vec{a}&lt;/span&gt;).
+The default action is to transform every HTML element that has `.math` (e.g., `<span class="math">\vec{r} = \vec{S} + 2\vec{a}</span>`).
 Furthermore, the formulas are considered inline if their element is a `span` or a full formula if the element is a `div` or any other HTML element.
 
 To change that behavior, simply provide 1 or 2 arguments when instantiating the plugin:

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <title>bespoke-math demo</title>
+  </head>
+  <body>
+    <article class="cube">
+      <section>
+        <h1>Slide 1</h1>
+        <ul>
+          <li>This example uses the <strong><code>bespoke-math-offline-fonts.min.js</code></strong> version of this plugin</li>
+          <li>That means that the <strong>font-face files from KaTeX are <u>encoded (base64)</u></strong> as a data URI inside the .js file</li>
+        </ul>
+      </section>
+      <section>
+        <h1>Slide 2: <strong>inline</strong> formula</h1>
+        <ul>
+          <li>Source code:
+            <pre><code>&lt;span class="math"&gt;d = \frac{a^2+b^2}{\sqrt(c)}&lt;/span&gt;</code></pre>
+          </li>
+          <li>Result:
+            <span class="math">d = \frac{a^2+b^2}{\sqrt(c)}</span>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h1>Slide 3: <strong>display</strong> formula</h1>
+        <ul>
+          <li>Source code:
+            <pre><code>&lt;div class="math"&gt;d = \frac{a^2+b^2}{\sqrt(c)}&lt;/div&gt;</code></pre>
+          </li>
+          <li>Result:
+            <div class="math">d = \frac{a^2+b^2}{\sqrt(c)}</div>
+          </li>
+        </ul>
+      </section>
+    </article>
+
+    <script src="demo.bundled.js"></script>
+  </body>
+</html>
