@@ -8,6 +8,7 @@ var gulp = require('gulp'),
   header = require('gulp-header'),
   rename = require('gulp-rename'),
   uglify = require('gulp-uglify'),
+  merge = require('merge-stream'),
   pkg = require('./package.json'),
   browserify = require('browserify'),
   source = require('vinyl-source-stream'),
@@ -59,32 +60,92 @@ gulp.task('coveralls', ['test'], function() {
     .pipe(coveralls());
 });
 
+
+function encodeFontsInDataURI(relativeUrl) {
+  var path = require('path'),
+    DataUri = require('datauri');
+
+  // the .woff format is supported by IE9+ and all majors
+  // we include just that one b/c otherwise the file size would exceed 2MB
+  if (['.woff' /*, '.woff2', '.ttf', '.eot'*/].indexOf(path.extname(relativeUrl)) !== -1) {
+    return new DataUri(path.resolve(__dirname, 'katex', relativeUrl)).content;
+  }
+  return relativeUrl;
+};
+
+function prependFontsURLWithCDN(cdnPrefix) {
+  return function(relativeUrl) {
+    var path = require('path');
+
+    if (['.woff', '.woff2', '.ttf', '.eot'].indexOf(path.extname(relativeUrl)) !== -1) {
+      relativeUrl = cdnPrefix.concat(relativeUrl);
+    }
+    return relativeUrl;
+  }
+};
+
+function getInstalledPackageVersion(packageName) {
+  var path = require('path'),
+    packageJson,
+    version;
+  try {
+    packageJson = require(path.resolve('node_modules', packageName, 'package.json'));
+    if (packageJson) {
+      version = packageJson.version;
+    }
+  } catch(e) {
+    console.error('Failed trying to get the installed version of the package: ' + packageName + '. Reason: ' + e);
+  }
+  return version;
+}
+
+
 gulp.task('compile', ['clean'], function() {
-  return browserify({debug: true, standalone: 'bespoke.plugins.math'})
-    .add('./lib/bespoke-math.js')
-    .transform('browserify-css', {
-      rootDir: './inexistent_directory'   // tricking browserify-css to make fonts be included
-    })
-    .transform('brfs')
-    .bundle()
-    .pipe(source('bespoke-math.js'))
-    .pipe(buffer())
-    .pipe(header([
-      '/*!',
-      ' * <%= name %> v<%= version %>',
-      ' *',
-      ' * Copyright <%= new Date().getFullYear() %>, <%= author.name %>',
-      ' * This content is released under the <%= license %> license',
-      ' * ',
-      ' */\n\n'
-    ].join('\n'), pkg))
-    .pipe(gulp.dest('dist'))
-    .pipe(rename('bespoke-math.min.js'))
-    .pipe(uglify())
-    .pipe(header([
-      '/*! <%= name %> v<%= version %> ',
-      '© <%= new Date().getFullYear() %> <%= author.name %>, ',
-      '<%= license %> License */\n'
-    ].join(''), pkg))
-    .pipe(gulp.dest('dist'));
+  var tasks = [
+    {
+      outputFileName: 'bespoke-math.js',
+      outputMinFileName: 'bespoke-math.min.js',
+      processingCssPaths: prependFontsURLWithCDN('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/' + (getInstalledPackageVersion('katex') || '0.5.1') + '/')
+    },
+    {
+      outputFileName: 'bespoke-math-offline-fonts.js',
+      outputMinFileName: 'bespoke-math-offline-fonts.min.js',
+      processingCssPaths: encodeFontsInDataURI
+    }
+  ];
+
+  tasks = tasks.map(function(task) {
+    console.log('Gerando: ' + task.outputFileName);
+
+    return browserify({debug: true, standalone: 'bespoke.plugins.math'})
+      .add('./lib/bespoke-math.js')
+      .transform('browserify-css', {
+        processRelativeUrl: task.processingCssPaths,
+        rootDir: './katex'
+      })
+      .transform('brfs')
+      .bundle()
+      .pipe(source(task.outputFileName))
+      .pipe(buffer())
+      .pipe(header([
+        '/*!',
+        ' * <%= name %> v<%= version %>',
+        ' *',
+        ' * Copyright <%= new Date().getFullYear() %>, <%= author.name %>',
+        ' * This content is released under the <%= license %> license',
+        ' * ',
+        ' */\n\n'
+      ].join('\n'), pkg))
+      .pipe(gulp.dest('dist'))
+      .pipe(rename(task.outputMinFileName))
+      .pipe(uglify())
+      .pipe(header([
+        '/*! <%= name %> v<%= version %> ',
+        '© <%= new Date().getFullYear() %> <%= author.name %>, ',
+        '<%= license %> License */\n'
+      ].join(''), pkg))
+      .pipe(gulp.dest('dist'));
+  });
+
+  return merge(tasks);
 });
