@@ -24,9 +24,9 @@ element renders a "full" formula.
 
 KaTeX is a much lighter alternative to MathJax that allows you to write LaTeX formulas on the web.
 Refer to their documentation on what syntax is supported.
-The current version of KaTeX in use is [0.4.3][katex-version].
+The current version of KaTeX in use is [0.5.1][katex-version].
 
-[katex-version]: https://github.com/Khan/KaTeX/releases/tag/v0.4.3
+[katex-version]: https://github.com/Khan/KaTeX/releases/tag/v0.5.1
 
 ## Download
 
@@ -91,6 +91,16 @@ To change that behavior, simply provide 1 or 2 arguments when instantiating the 
     - Renders into KaTeX equations all elements with the class `inline-math` as inline and all elements with the
       class `math` as full formula.  
 
+
+## Inclusion of KaTeX's CSS/Font files
+
+KaTeX is composed of javascript, CSS and font-face files (refer to their [usage documentation](https://github.com/Khan/KaTeX#usage)).
+
+This plugin, when a math formula is found on the bespoke deck, injects the CSS file into de document head (by using [browserify-css](https://github.com/cheton/browserify-css)). The font-face files, however, are loaded from a CDN (cdnjs, in case). This is not ideal as an Internet connection is required for KaTeX to work 100%.
+
+It is possible, however, to encode the font files on the generated browserify bundle, but that makes the plugin js file much larger. If being able to use this plugin offline is necessary, you can use the files:
+  - `dist/bespoke-math-offline-fonts.js` or
+  - `dist/bespoke-math-offline-fonts.min.js`
 
 ## Package managers
 
