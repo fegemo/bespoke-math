@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+  gutil = require('gulp-util'),
   del = require('del'),
   jshint = require('gulp-jshint'),
   map = require('vinyl-map'),
@@ -26,6 +27,7 @@ gulp.task('watch', function() {
 gulp.task('clean', function() {
   return del([
     'dist',
+    'demo/demo.bundled.js',
     'lib-instrumented',
     'test/coverage'
   ]);
@@ -60,6 +62,31 @@ gulp.task('coveralls', ['test'], function() {
     .pipe(coveralls());
 });
 
+gulp.task('compile:demo', ['compile'], function() {
+  var path = require('path'),
+    tasks = [
+    {
+      inputFolder: 'demo/fonts-available-offline'
+    },
+    {
+      inputFolder: 'demo/fonts-from-cdn'
+    }
+  ];
+
+  tasks = tasks.map(function(task) {
+    return browserify({ debug: true })
+    .add(path.join(task.inputFolder, 'demo.js'))
+    .bundle()
+    .pipe(source('demo.bundled.js'))
+    .pipe(gulp.dest(task.inputFolder));
+  });
+
+  return merge(tasks);
+});
+
+gulp.task('deploy:demo', ['compile:demo'], function(done) {
+  require('gh-pages').publish(path.join(__dirname, 'demo'), { logger: gutil.log }, done);
+});
 
 function encodeFontsInDataURI(relativeUrl) {
   var path = require('path'),
