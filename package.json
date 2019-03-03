@@ -9,6 +9,7 @@
     "name": "Flávio",
     "url": "https://github.com/fegemo"
   },
+  "contributors": [],
   "main": "./dist/bespoke-math.min.js",
   "repository": {
     "type": "git",
@@ -25,47 +26,43 @@
     "bespoke": "^1.0.0",
     "bespoke-keys": "^1.1.0",
     "bespoke-theme-fancy": "^0.6.0",
-    "brfs": "^1.4.0",
-    "browserify": "^13.0.0",
-    "browserify-css": "^0.9.0",
+    "browserify": "^16.2.3",
+    "browserify-css": "^0.14.0",
     "datauri": "^1.0.4",
-    "del": "^2.2.0",
-    "function-bind": "^1.0.2",
-    "gh-pages": "^0.10.0",
-    "gulp": "^3.9.0",
+    "delete": "^1.0.0",
+    "gh-pages": "^2.0.1",
+    "gulp": "^4.0.0",
     "gulp-brfs": "^0.1.0",
     "gulp-coveralls": "^0.1.4",
-    "gulp-header": "^1.2.2",
-    "gulp-jshint": "^2.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-header": "^2.0.7",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.2.0",
+    "gulp-terser": "^1.0.0",
+    "gulp-webserver": "^0.9.1",
     "istanbul": "^0.4.2",
-    "jasmine-core": "^2.4.1",
-    "jshint": "^2.9.1",
-    "jshint-stylish": "^2.0.1",
-    "karma": "^0.13.21",
-    "karma-browserify": "^5.0.2",
-    "karma-coverage": "^0.5.3",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^1.0.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.1",
+    "karma-browserify": "^6.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-jasmine": "^2.0.1",
     "merge-stream": "^1.0.0",
-    "phantomjs-prebuilt": "^2.1.4",
+    "puppeteer": "^1.12.2",
     "through": "^2.3.8",
-    "vinyl-buffer": "1.0.0",
+    "vinyl-buffer": "1.0.1",
     "vinyl-map": "^1.0.1",
-    "vinyl-source-stream": "^1.1.0",
-    "vinyl-transform": "^1.0.0",
-    "watchify": "^3.7.0"
+    "vinyl-source-stream": "^2.0.0",
+    "vinyl-transform": "^1.0.0"
   },
   "engines": {
-    "node": ">=5.4.0"
+    "node": ">=10.0.0"
   },
   "license": "MIT",
   "keywords": [
     "bespoke-plugin"
   ],
   "dependencies": {
-    "katex": "^0.5.1"
+    "katex": "^0.10.1"
   }
 }

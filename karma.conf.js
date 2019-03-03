@@ -1,10 +1,12 @@
+const puppeteer = require('puppeteer');
+
+process.env.CHROME_BIN = puppeteer.executablePath();
+
 module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', 'browserify'],
-    files: [
-      'test/spec/*Spec.js'
-    ],
+    files: ['test/spec/*Spec.js'],
     exclude: [],
 
     preprocessors: {
@@ -14,9 +16,7 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
-      transform: [
-        ['browserify-css', { rootDir: './inexistent_directory' }]
-      ]
+      transform: [['browserify-css', { global: true, rootDir: './inexistent_directory' }]]
     },
 
     reporters: ['progress', 'coverage'],
@@ -38,7 +38,7 @@ module.exports = function(config) {
     port: 8080,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: true
   });
 };

@@ -1,6 +1,4 @@
-Function.prototype.bind = Function.prototype.bind || require('function-bind');
-
-var bespoke = require('bespoke'),
+const bespoke = require('bespoke'),
   math = require('../../lib-instrumented/bespoke-math.js'),
 
   createHtml = function(slides) {
@@ -112,24 +110,6 @@ describe("bespoke-math configuration", function() {
         ]);
       }).not.toThrow();
     });
-
-    // I might need to use sthg like proxyquireify to mock the require to the CSS file
-    // it('should not throw an exception when it is not possible to find katex\'s CSS', function() {
-    //
-    //   var stubs = {
-    //     '../katex/katex.min.css': { }
-    //   };
-    //
-    //   var mockedMath = proxyquire('../../lib-instrumented/bespoke-math.js');
-    //
-    //   slides = ['<p>heyyy i\'m just a paragraph!</p>'];
-    //
-    //   expect(function() {
-    //     deck = bespoke.from(createHtml('slides'), [
-    //       math()
-    //     ]);
-    //   }).not.toThrow();
-    // });
 
     it('should not include CSS from katex if no math formula is found', function() {
       var styles = document.querySelectorAll('head > style');
