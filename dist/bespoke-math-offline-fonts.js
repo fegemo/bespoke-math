@@ -1,5 +1,5 @@
 /*!
- * bespoke-math v1.2.0
+ * bespoke-math v1.3.1
  *
  * Copyright 2019, Flávio
  * This content is released under the MIT license
@@ -31,25 +31,26 @@ module.exports = function(inlineMathSelector, displayMathSelector) {
   return function(deck) {
     let foundMath = false,
       mathElements;
+
     switch (inlineVsDisplayLogic) {
       case 'separateSelector':
         mathElements = deck.parent.querySelectorAll(inlineMathSelector);
-        Array.prototype.slice.call(mathElements).forEach(el => {
-          el.innerHTML = renderKatexFormula(el.innerText, false);
+        Array.from(mathElements).forEach(el => {
+          el.innerHTML = renderKatexFormula(el.innerHTML, false);
           foundMath = true;
         });
         mathElements = deck.parent.querySelectorAll(displayMathSelector);
-        Array.prototype.slice.call(mathElements).forEach(el => {
-          el.innerHTML = renderKatexFormula(el.innerText, true);
+        Array.from(mathElements).forEach(el => {
+          el.innerHTML = renderKatexFormula(el.innerHTML, true);
           foundMath = true;
         });
         break;
 
       case 'spanIsInline':
         mathElements = deck.parent.querySelectorAll(inlineMathSelector);
-        Array.prototype.slice.call(mathElements).forEach(el => {
+        Array.from(mathElements).forEach(el => {
           el.innerHTML = renderKatexFormula(
-            el.innerText,
+            el.innerHTML,
             el.tagName.toLowerCase() !== 'span'
           );
           foundMath = true;
