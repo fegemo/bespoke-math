@@ -50,7 +50,7 @@ module.exports = function(inlineMathSelector, displayMathSelector) {
         mathElements = deck.parent.querySelectorAll(inlineMathSelector);
         Array.from(mathElements).forEach(el => {
           el.innerHTML = renderKatexFormula(
-            el.innerHTML,
+            el.textContent,
             el.tagName.toLowerCase() !== 'span'
           );
           foundMath = true;
