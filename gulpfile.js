@@ -1,21 +1,20 @@
-const { src, dest, series, parallel, watch } = require('gulp'),
-  map = require('vinyl-map'),
+const { src, dest, series, watch } = require('gulp'),
   terser = require('gulp-terser'),
   header = require('gulp-header'),
   rename = require('gulp-rename'),
   eslint = require('gulp-eslint'),
   merge = require('merge-stream'),
   buffer = require('vinyl-buffer'),
-  webserver = require('gulp-webserver'),
-  coveralls = require('gulp-coveralls'),
-  source = require('vinyl-source-stream');
+  connect = require('gulp-connect'),
+  coveralls = require('@kollavarsham/gulp-coveralls'),
+  source = require('vinyl-source-stream'),
+  datauri = require('datauri/sync');
 
 const del = require('delete'),
   ghpages = require('gh-pages'),
   browserify = require('browserify');
 
-const istanbul = require('istanbul'),
-  karma = require('karma');
+const karma = require('karma');
 
 const path = require('path');
 const pkg = require('./package.json');
@@ -25,7 +24,6 @@ function clean() {
   return del([
     'dist',
     'demo/demo.bundled.js',
-    'lib-instrumented',
     'test/coverage'
   ]);
 }
@@ -36,34 +34,22 @@ function lint() {
   );
 }
 
-function instrument() {
-  return src('lib/**/*.js')
-    .pipe(
-      map((code, filename) => {
-        const instrumenter = new istanbul.Instrumenter(),
-          relativePath = path.relative(__dirname, filename);
-
-        return instrumenter.instrumentSync(code.toString(), relativePath);
-      })
-    )
-    .pipe(dest('lib-instrumented'));
-}
-
 function test(done) {
-  const server = new karma.Server(
-    {
-      configFile: __dirname + '/karma.conf.js'
-    },
-    function() {
+  const parseConfig = karma.config.parseConfig;
+  const Server = karma.Server;
+  parseConfig(path.resolve('karma.conf.js'), null, {
+    promiseConfig: true,
+    throwErrors: true
+  }).then(karmaConfig => {
+    const server = new Server(karmaConfig, exitCode => {
       done();
-    }
-  );
-
-  server.start();
+    });
+    server.start();
+  });
 }
 
 function coverageReport() {
-  return src(['test/coverage/**/lcov.info']).pipe(coverageReport());
+  return src(['test/coverage/**/lcov.info']).pipe(coveralls());
 }
 
 function compileDemo() {
@@ -82,6 +68,7 @@ function compileDemo() {
       .bundle()
       .pipe(source('demo.bundled.js'))
       .pipe(dest(task.inputFolder))
+      .pipe(connect.reload())
   );
 
   return merge(tasks);
@@ -102,21 +89,21 @@ function prependFontsURLWithCDN(cdnPrefix) {
 }
 
 function encodeFontsInDataURI(relativeUrl) {
-  const DataUri = require('datauri');
-
-  // the .woff format is supported by IE9+ and all majors
+  // the .woff2 format is supported by anything but IE9+
   // we include just that one b/c otherwise the file size would exceed 2MB
   if (
-    ['.woff' /*, '.woff2', '.ttf', '.eot'*/].indexOf(
+    [/*'.woff', */'.woff2'/*, '.ttf', '.eot'*/].indexOf(
       path.extname(relativeUrl)
     ) !== -1
   ) {
-    return new DataUri(path.resolve(__dirname, 'node_modules/katex/dist/', relativeUrl)).content;
+    return datauri(
+      path.resolve(__dirname, 'node_modules/katex/dist/', relativeUrl)
+    ).content;
   }
   return relativeUrl;
 }
 
-function getInstalledPackageVersion(packageName) {
+async function getInstalledPackageVersion(packageName) {
   let packageJson, version;
   try {
     packageJson = require(path.resolve(
@@ -145,10 +132,11 @@ function compile() {
       outputMinFileName: 'bespoke-math.min.js',
       processingCssPaths: prependFontsURLWithCDN(
         'https://cdn.jsdelivr.net/npm/katex@' +
-          (getInstalledPackageVersion('katex') || '0.10.1') +
+          (getInstalledPackageVersion('katex') || '0.13.3') +
           '/dist/'
       )
-    },
+    }
+    ,
     {
       outputFileName: 'bespoke-math-offline-fonts.js',
       outputMinFileName: 'bespoke-math-offline-fonts.min.js',
@@ -195,6 +183,7 @@ function compile() {
         )
       )
       .pipe(dest('dist'))
+      .pipe(connect.reload())
   );
 
   return merge(tasks);
@@ -205,14 +194,12 @@ function dev() {
 
   watch('lib/**/*.js', series(test, lint, compile));
   watch('test/spec/**/*.js', test);
-
-  src('demo').pipe(
-    webserver({
-      livereload: true,
-      open: true,
-      port
-    })
-  );
+  
+  connect.server({
+    root: 'demo',
+    livereload: true,
+    port
+  })
 }
 
 function deploy(cb) {
@@ -223,7 +210,7 @@ function deploy(cb) {
 exports.clean = clean;
 exports.lint = lint;
 exports.compile = series(lint, compile);
-exports.test = series(lint, instrument, test);
+exports.test = series(lint, test);
 exports.dev = series(compileDemo, dev);
 exports.coveralls = series(exports.test, coverageReport);
 exports.deploy = deploy;

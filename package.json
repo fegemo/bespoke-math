@@ -1,6 +1,6 @@
 {
   "name": "bespoke-math",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Use katex to include latex formulas into your bespoke.js presentation",
   "homepage": "https://github.com/fegemo/bespoke-math",
   "bugs": "https://github.com/fegemo/bespoke-math/issues",
@@ -20,38 +20,36 @@
     "coveralls": "gulp coveralls"
   },
   "peerDependencies": {
-    "bespoke": ">=1.0.0"
+    "bespoke": ">=1.1.0"
   },
   "devDependencies": {
+    "@kollavarsham/gulp-coveralls": "^0.3.4",
     "bespoke": "^1.0.0",
     "bespoke-keys": "^1.1.0",
-    "bespoke-theme-fancy": "^0.6.0",
-    "browserify": "^16.2.3",
-    "browserify-css": "^0.14.0",
-    "datauri": "^1.0.4",
-    "delete": "^1.0.0",
-    "gh-pages": "^2.0.1",
-    "gulp": "^4.0.0",
+    "bespoke-theme-sandy": "^1.1.1",
+    "browserify": "^17.0.0",
+    "browserify-css": "^0.15.0",
+    "datauri": "^3.0.0",
+    "delete": "^1.1.0",
+    "gh-pages": "^3.1.0",
+    "gulp": "^4.0.2",
     "gulp-brfs": "^0.1.0",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-eslint": "^5.0.0",
-    "gulp-header": "^2.0.7",
-    "gulp-plumber": "^1.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-terser": "^1.0.0",
-    "gulp-webserver": "^0.9.1",
-    "istanbul": "^0.4.2",
-    "jasmine-core": "^3.3.0",
-    "karma": "^4.0.1",
-    "karma-browserify": "^6.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.2",
-    "karma-jasmine": "^2.0.1",
-    "merge-stream": "^1.0.0",
-    "puppeteer": "^1.12.2",
+    "gulp-connect": "^5.7.0",
+    "gulp-eslint": "^6.0.0",
+    "gulp-header": "^2.0.9",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-terser": "^2.0.1",
+    "jasmine-core": "^3.7.1",
+    "karma": "^6.3.2",
+    "karma-browserify": "^8.0.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
+    "merge-stream": "^2.0.0",
+    "puppeteer": "^9.0.0",
     "through": "^2.3.8",
     "vinyl-buffer": "1.0.1",
-    "vinyl-map": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "vinyl-transform": "^1.0.0"
   },
@@ -63,6 +61,6 @@
     "bespoke-plugin"
   ],
   "dependencies": {
-    "katex": "^0.10.1"
+    "katex": "^0.13.3"
   }
 }

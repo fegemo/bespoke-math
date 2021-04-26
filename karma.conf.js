@@ -6,33 +6,29 @@ module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', 'browserify'],
-    files: ['test/spec/*Spec.js'],
+    files: ['test/spec/*Spec.js', 'lib/**/*.js'],
     exclude: [],
 
     preprocessors: {
       'test/**/*.js': 'browserify',
-      'lib/**/*.js': 'coverage'
+      'lib/**/*.js': ['browserify', 'coverage']
     },
 
     browserify: {
       debug: true,
-      transform: [['browserify-css', { global: true, rootDir: './inexistent_directory' }]]
+      transform: [
+        ['browserify-css', { global: true, rootDir: './inexistent_directory' }]
+      ]
     },
 
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {
+      type: 'lcov',
       dir: 'test/coverage',
-      reporters: [
-        {
-          type: 'lcov',
-          subdir: 'lcov'
-        },
-        {
-          type: 'html',
-          subdir: 'html'
-        }
-      ]
+      instrumenterOptions: {
+        istanbul: { noCompact: true }
+      }
     },
 
     port: 8080,

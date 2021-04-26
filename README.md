@@ -46,9 +46,9 @@ KaTeX is a much lighter alternative to MathJax that allows you to write
 LaTeX formulas on the web.
 
 Refer to their documentation on what syntax is supported.
-The current version of KaTeX in use is [0.5.1][katex-version].
+The current version of KaTeX in use is [0.13.3][katex-version].
 
-[katex-version]: https://github.com/Khan/KaTeX/releases/tag/v0.5.1
+[katex-version]: https://github.com/Khan/KaTeX/releases/tag/v0.13.3
 
 ## Download
 
@@ -65,8 +65,8 @@ This plugin is shipped in a [UMD format](https://github.com/umdjs/umd), meaning 
 For example, when using CommonJS modules:
 
 ```js
-var bespoke = require('bespoke'),
-  math = require('bespoke-math');
+const bespoke = require('bespoke');
+const math = require('bespoke-math');
 
 bespoke.from('#presentation', [
   math()

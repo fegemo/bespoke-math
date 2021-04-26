@@ -1,5 +1,5 @@
 const bespoke = require('bespoke'),
-  theme = require('bespoke-theme-fancy'),
+  theme = require('bespoke-theme-sandy'),
   keys = require('bespoke-keys'),
   math = require('../../dist/bespoke-math-offline-fonts.min.js');
 

@@ -1,5 +1,5 @@
 const bespoke = require('bespoke'),
-  math = require('../../lib-instrumented/bespoke-math.js'),
+  math = require('../../lib/bespoke-math.js'),
 
   createHtml = function(slides) {
     var parent = document.createElement("article"),
