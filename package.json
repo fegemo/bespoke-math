@@ -16,7 +16,7 @@
     "url": "git://github.com/fegemo/bespoke-math.git"
   },
   "scripts": {
-    "test": "gulp",
+    "test": "gulp test",
     "coveralls": "gulp coveralls"
   },
   "peerDependencies": {
