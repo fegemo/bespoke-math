@@ -103,7 +103,7 @@ function encodeFontsInDataURI(relativeUrl) {
   return relativeUrl;
 }
 
-async function getInstalledPackageVersion(packageName) {
+function getInstalledPackageVersion(packageName) {
   let packageJson, version;
   try {
     packageJson = require(path.resolve(
