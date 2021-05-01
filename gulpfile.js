@@ -1,21 +1,18 @@
-const { src, dest, series, watch } = require('gulp'),
-  terser = require('gulp-terser'),
-  header = require('gulp-header'),
-  rename = require('gulp-rename'),
-  eslint = require('gulp-eslint'),
-  merge = require('merge-stream'),
-  buffer = require('vinyl-buffer'),
-  connect = require('gulp-connect'),
-  coveralls = require('@kollavarsham/gulp-coveralls'),
-  source = require('vinyl-source-stream'),
-  datauri = require('datauri/sync')
-
-const del = require('delete'),
-  ghpages = require('gh-pages'),
-  browserify = require('browserify')
-
+const { src, dest, series, watch } = require('gulp')
+const terser = require('gulp-terser')
+const header = require('gulp-header')
+const rename = require('gulp-rename')
+const eslint = require('gulp-eslint')
+const connect = require('gulp-connect')
+const del = require('delete')
 const karma = require('karma')
-
+const browserify = require('browserify')
+const datauri = require('datauri/sync')
+const coveralls = require('@kollavarsham/gulp-coveralls')
+const source = require('vinyl-source-stream')
+const buffer = require('vinyl-buffer')
+const merge = require('merge-stream')
+const ghpages = require('gh-pages')
 const path = require('path')
 const pkg = require('./package.json')
 
@@ -170,16 +167,10 @@ function compile() {
       )
       .pipe(dest('dist'))
       .pipe(rename(task.outputMinFileName))
-      .pipe(terser())
       .pipe(
-        header(
-          [
-            '/*! <%= name %> v<%= version %> ',
-            '© <%= new Date().getFullYear() %> <%= author.name %>, ',
-            '<%= license %> License */\n'
-          ].join(''),
-          pkg
-        )
+        terser({
+          ecma: 2020
+        })
       )
       .pipe(dest('dist'))
       .pipe(connect.reload())
