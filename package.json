@@ -34,14 +34,11 @@
     "delete": "^1.1.0",
     "gh-pages": "^3.1.0",
     "gulp": "^4.0.2",
-    "gulp-brfs": "^0.1.0",
     "gulp-connect": "^5.7.0",
     "gulp-eslint": "^6.0.0",
     "gulp-header": "^2.0.9",
-    "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
     "gulp-terser": "^2.0.1",
-    "jasmine-core": "^3.7.1",
     "karma": "^6.3.2",
     "karma-browserify": "^8.0.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -49,10 +46,8 @@
     "karma-jasmine": "^4.0.1",
     "merge-stream": "^2.0.0",
     "puppeteer": "^9.0.0",
-    "through": "^2.3.8",
     "vinyl-buffer": "1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "vinyl-transform": "^1.0.0"
+    "vinyl-source-stream": "^2.0.0"
   },
   "engines": {
     "node": ">=10.0.0"
