@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer')
 
-process.env.CHROME_BIN = puppeteer.executablePath();
+process.env.CHROME_BIN = puppeteer.executablePath()
 
 module.exports = function(config) {
   config.set({
@@ -36,5 +36,5 @@ module.exports = function(config) {
     autoWatch: false,
     browsers: ['ChromeHeadless'],
     singleRun: true
-  });
-};
+  })
+}

@@ -8,48 +8,49 @@ const { src, dest, series, watch } = require('gulp'),
   connect = require('gulp-connect'),
   coveralls = require('@kollavarsham/gulp-coveralls'),
   source = require('vinyl-source-stream'),
-  datauri = require('datauri/sync');
+  datauri = require('datauri/sync')
 
 const del = require('delete'),
   ghpages = require('gh-pages'),
-  browserify = require('browserify');
+  browserify = require('browserify')
 
-const karma = require('karma');
+const karma = require('karma')
 
-const path = require('path');
-const pkg = require('./package.json');
+const path = require('path')
+const pkg = require('./package.json')
 
 
 function clean() {
   return del([
     'dist',
-    'demo/demo.bundled.js',
+    'demo/**/demo.bundled.js',
     'test/coverage'
-  ]);
+  ])
 }
 
 function lint() {
-  return src(['gulpfile.js', 'lib/**/*.js', 'specs/**/*.js']).pipe(
-    eslint.failAfterError()
-  );
+  return src(['gulpfile.js', 'lib/**/*.js', 'specs/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
 }
 
 function test(done) {
-  const parseConfig = karma.config.parseConfig;
-  const Server = karma.Server;
+  const parseConfig = karma.config.parseConfig
+  const Server = karma.Server
   parseConfig(path.resolve('karma.conf.js'), null, {
     promiseConfig: true,
     throwErrors: true
   }).then(karmaConfig => {
-    const server = new Server(karmaConfig, exitCode => {
-      done();
-    });
-    server.start();
-  });
+    const server = new Server(karmaConfig, () => {
+      done()
+    })
+    server.start()
+  })
 }
 
 function coverageReport() {
-  return src(['test/coverage/**/lcov.info']).pipe(coveralls());
+  return src(['test/coverage/**/lcov.info']).pipe(coveralls())
 }
 
 function compileDemo() {
@@ -60,7 +61,7 @@ function compileDemo() {
     {
       inputFolder: 'demo/fonts-from-cdn'
     }
-  ];
+  ]
 
   tasks = tasks.map(task =>
     browserify({ debug: false })
@@ -69,23 +70,21 @@ function compileDemo() {
       .pipe(source('demo.bundled.js'))
       .pipe(dest(task.inputFolder))
       .pipe(connect.reload())
-  );
+  )
 
-  return merge(tasks);
+  return merge(tasks)
 }
 
 function prependFontsURLWithCDN(cdnPrefix) {
   return function(relativeUrl) {
-    var path = require('path');
-
     if (
       ['.woff', '.woff2', '.ttf', '.eot'].indexOf(path.extname(relativeUrl)) !==
       -1
     ) {
-      relativeUrl = cdnPrefix.concat(relativeUrl);
+      relativeUrl = cdnPrefix.concat(relativeUrl)
     }
-    return relativeUrl;
-  };
+    return relativeUrl
+  }
 }
 
 function encodeFontsInDataURI(relativeUrl) {
@@ -98,21 +97,21 @@ function encodeFontsInDataURI(relativeUrl) {
   ) {
     return datauri(
       path.resolve(__dirname, 'node_modules/katex/dist/', relativeUrl)
-    ).content;
+    ).content
   }
-  return relativeUrl;
+  return relativeUrl
 }
 
 function getInstalledPackageVersion(packageName) {
-  let packageJson, version;
+  let packageJson, version
   try {
     packageJson = require(path.resolve(
       'node_modules',
       packageName,
       'package.json'
-    ));
+    ))
     if (packageJson) {
-      version = packageJson.version;
+      version = packageJson.version
     }
   } catch (e) {
     console.error(
@@ -120,9 +119,9 @@ function getInstalledPackageVersion(packageName) {
         packageName +
         '. Reason: ' +
         e
-    );
+    )
   }
-  return version;
+  return version
 }
 
 function compile() {
@@ -184,16 +183,16 @@ function compile() {
       )
       .pipe(dest('dist'))
       .pipe(connect.reload())
-  );
+  )
 
-  return merge(tasks);
+  return merge(tasks)
 }
 
 function dev() {
-  const port = 8085;
+  const port = 8085
 
-  watch('lib/**/*.js', series(test, lint, compile));
-  watch('test/spec/**/*.js', test);
+  watch('lib/**/*.js', series(test, lint, compile))
+  watch('test/spec/**/*.js', test)
   
   connect.server({
     root: 'demo',
@@ -203,14 +202,14 @@ function dev() {
 }
 
 function deploy(cb) {
-  ghpages.publish(path.join(__dirname, 'demo'), cb);
+  ghpages.publish(path.join(__dirname, 'demo'), cb)
 }
 
 
-exports.clean = clean;
-exports.lint = lint;
-exports.compile = series(lint, compile);
-exports.test = series(lint, test);
-exports.dev = series(compileDemo, dev);
-exports.coveralls = series(exports.test, coverageReport);
-exports.deploy = deploy;
+exports.clean = clean
+exports.lint = lint
+exports.compile = series(lint, compile, compileDemo)
+exports.test = series(lint, test)
+exports.dev = series(compileDemo, dev)
+exports.coveralls = series(exports.test, coverageReport)
+exports.deploy = deploy

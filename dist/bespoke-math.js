@@ -7,67 +7,67 @@
  */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g=(g.bespoke||(g.bespoke = {}));g=(g.plugins||(g.plugins = {}));g.math = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const katex = require('katex');
+const katex = require('katex')
 
 const renderKatexFormula = function(text, displayMode) {
   try {
-    return katex.renderToString(text, { displayMode: displayMode });
+    return katex.renderToString(text, { displayMode: displayMode })
   } catch (err) {
     console.log(
       'Katex error trying to parse: "' + text + '". Description: ' + err
-    );
+    )
   }
-};
+}
 
 module.exports = function(inlineMathSelector, displayMathSelector) {
   const inlineVsDisplayLogic =
     typeof displayMathSelector !== 'undefined'
       ? 'separateSelector'
-      : 'spanIsInline';
+      : 'spanIsInline'
 
-  inlineMathSelector = arguments.length > 0 ? inlineMathSelector : '.math';
+  inlineMathSelector = arguments.length > 0 ? inlineMathSelector : '.math'
 
   return function(deck) {
     let foundMath = false,
-      mathElements;
+      mathElements
 
     switch (inlineVsDisplayLogic) {
-      case 'separateSelector':
-        mathElements = deck.parent.querySelectorAll(inlineMathSelector);
-        Array.from(mathElements).forEach(el => {
-          el.innerHTML = renderKatexFormula(el.innerHTML, false);
-          foundMath = true;
-        });
-        mathElements = deck.parent.querySelectorAll(displayMathSelector);
-        Array.from(mathElements).forEach(el => {
-          el.innerHTML = renderKatexFormula(el.innerHTML, true);
-          foundMath = true;
-        });
-        break;
+    case 'separateSelector':
+      mathElements = deck.parent.querySelectorAll(inlineMathSelector)
+      Array.from(mathElements).forEach(el => {
+        el.innerHTML = renderKatexFormula(el.innerHTML, false)
+        foundMath = true
+      })
+      mathElements = deck.parent.querySelectorAll(displayMathSelector)
+      Array.from(mathElements).forEach(el => {
+        el.innerHTML = renderKatexFormula(el.innerHTML, true)
+        foundMath = true
+      })
+      break
 
-      case 'spanIsInline':
-        mathElements = deck.parent.querySelectorAll(inlineMathSelector);
-        Array.from(mathElements).forEach(el => {
-          el.innerHTML = renderKatexFormula(
-            el.textContent,
-            el.tagName.toLowerCase() !== 'span'
-          );
-          foundMath = true;
-        });
-        break;
+    case 'spanIsInline':
+      mathElements = deck.parent.querySelectorAll(inlineMathSelector)
+      Array.from(mathElements).forEach(el => {
+        el.innerHTML = renderKatexFormula(
+          el.textContent,
+          el.tagName.toLowerCase() !== 'span'
+        )
+        foundMath = true
+      })
+      break
     }
 
     if (foundMath) {
       try {
-        require('katex/dist/katex.min.css');
+        require('katex/dist/katex.min.css')
       } catch (e) {
         console.log(
           'It was not possible to load the CSS from KaTeX. Details: ' + e
-        );
+        )
       }
     }
-  };
-};
+  }
+}
 
 },{"katex":3,"katex/dist/katex.min.css":4}],2:[function(require,module,exports){
 'use strict';
