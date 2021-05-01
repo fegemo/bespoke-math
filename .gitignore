@@ -4,3 +4,4 @@ lib-instrumented
 test/coverage
 .idea
 Thumbs.db
+package-lock.json
