@@ -1,30 +1,30 @@
 /* eslint-env jasmine */
-const bespoke = require('bespoke'),
-  math = require('../../lib/bespoke-math.js'),
+const bespoke = require('bespoke')
+const math = require('../../lib/bespoke-math.js')
 
-  createHtml = function(slides) {
-    let parent = document.createElement('article'),
-      slide
-    for (let i = 0; i < slides.length; i++) {
-      slide = document.createElement('section')
-      slide.innerHTML = slides[i]
-      parent.appendChild(slide)
-    }
-    return parent
+function createHtml(slides) {
+  let parent = document.createElement('article'),
+    slide
+  for (let i = 0; i < slides.length; i++) {
+    slide = document.createElement('section')
+    slide.innerHTML = slides[i]
+    parent.appendChild(slide)
   }
+  return parent
+}
 
 describe('bespoke-math', function() {
 
-  let deck,
-    slides = [
-      '<h1>Title slide 1</h1><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
-      '<h1>Title slide 2</h1><p class="math">c = \\pm\\sqrt{a^2 + b^2}</p>'],
+  let deck = null
+  let slides = [
+    '<h1>Title slide 1</h1><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>',
+    '<h1>Title slide 2</h1><p class="math">c = \\pm\\sqrt{a^2 + b^2}</p>']
 
-    createDeck = function() {
-      deck = bespoke.from(createHtml(slides), [
-        math()
-      ])
-    }
+  function createDeck() {
+    deck = bespoke.from(createHtml(slides), [
+      math()
+    ])
+  }
 
   beforeEach(createDeck)
 
@@ -49,8 +49,8 @@ describe('bespoke-math', function() {
 
 describe('bespoke-math configuration', function() {
 
-  let deck,
-    slides
+  let deck = null
+  let slides = null
 
   beforeEach(function() {
     slides = ['<h1>Title slide 1</h1><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>']

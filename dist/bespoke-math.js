@@ -1,5 +1,5 @@
 /*!
- * bespoke-math v1.4.1
+ * bespoke-math v1.4.0
  *
  * Copyright 2021, Flávio
  * This content is released under the MIT license
@@ -28,8 +28,8 @@ module.exports = function(inlineMathSelector, displayMathSelector) {
   inlineMathSelector = arguments.length > 0 ? inlineMathSelector : '.math'
 
   return function(deck) {
-    let foundMath = false,
-      mathElements
+    let foundMath = false
+    let mathElements
 
     switch (inlineVsDisplayLogic) {
     case 'separateSelector':
